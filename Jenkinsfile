@@ -11,7 +11,7 @@ pipeline {
         
         //Used this environment variable for Docker Image.Build Number is inbuilt variable which is suffixed with 
         //every image which will build when the pipeline runs and maintain the version docker images.
-        IMAGE_NAME='mudassir12/java-mvn-private-repos:$BUILD_NUMBER'
+        IMAGE_NAME='mudassir12/java-mvn-private-repos'
     }
 
     
@@ -70,13 +70,13 @@ pipeline {
                         echo "Packaging the code on new slave"
 
                         sh "scp -o StrictHostKeyChecking=no server-config.sh ${BUILD_SERVER_IP}:/home/ec2-user"
-                        sh "ssh  ${BUILD_SERVER_IP} 'bash /home/ec2-user/server-config.sh'"
+                        sh "ssh  ${BUILD_SERVER_IP} 'bash /home/ec2-user/server-config.sh ${IMAGE_NAME} ${BUILD_NUMBER}'"
 
                         //  sh "ssh -o StrictHostKeyChecking=no ${BUILD_SERVER_IP} sudo yum install docker -y"
                         //  sh "ssh  ${BUILD_SERVER_IP} sudo systemctl start docker"
-                         sh "ssh  ${BUILD_SERVER_IP} sudo docker build -t ${IMAGE_NAME} /home/ec2-user/addressbook-v2"
+                        //  sh "ssh  ${BUILD_SERVER_IP} sudo docker build -t ${IMAGE_NAME} /home/ec2-user/addressbook-v2"
                          sh "ssh  ${BUILD_SERVER_IP} sudo docker login -u ${USERNAME} -p ${PASSWORD}"
-                         sh "ssh  ${BUILD_SERVER_IP} sudo docker push ${IMAGE_NAME}"
+                         sh "ssh  ${BUILD_SERVER_IP} sudo docker push ${IMAGE_NAME}:${BUILD_NUMBER}"
 
                         } 
 

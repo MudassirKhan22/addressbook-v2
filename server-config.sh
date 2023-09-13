@@ -12,5 +12,7 @@ else
     git clone https://github.com/MudassirKhan22/addressbook-v2.git
 fi
 cd /home/ec2-user/addressbook-v2
+git checkout cicd-docker
 sudo yum install docker -y
 sudo systemctl start docker
+sudo docker build -t $1:$2 /home/ec2-user/addressbook-v2
