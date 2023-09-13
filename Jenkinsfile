@@ -109,7 +109,7 @@ pipeline {
                         //withCredentials is used to bind your Docker Hub Credentials with the variables so that your credentials is encrypted. 
                         withCredentials([usernamePassword(credentialsId: 'DockerHubCredentials', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
                         echo "Deploying to test"
-                        sh "ssh  ${TEST_SERVER_IP} sudo yum install docker -y"
+                        sh "ssh  -o StrictHostKeyChecking=no ${TEST_SERVER_IP} sudo yum install docker -y"
                         sh "ssh  ${TEST_SERVER_IP} sudo systemctl start docker"
                         sh "ssh  ${TEST_SERVER_IP} sudo docker login -u ${USERNAME} -p ${PASSWORD}"
                         sh "ssh  ${TEST_SERVER_IP} sudo docker run -itd -P ${IMAGE_NAME}:${BUILD_NUMBER}"
