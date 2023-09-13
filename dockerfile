@@ -1,6 +1,6 @@
 From tomcat:8.5.72-jdk8-openjdk-buster
 
-LABEL key="Mudassir"
+MAINTAINER "Mudassir"
 
 RUN apt-get update
 
@@ -22,7 +22,7 @@ RUN mvn package
 
 RUN run -rf /usr/local/tomcat/webapps/*
 
-RUN cp /app/target/addressbookpractice.war /usr/local/tomcat/webapps/
+RUN cp /app/target/addressbookpractice.war /usr/local/tomcat/webapps/*
 
 EXPOSE 8080
 
