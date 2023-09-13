@@ -1,7 +1,5 @@
 From tomcat:8.5.72-jdk8-openjdk-buster
 
-MAINTAINER "Mudassir"
-
 RUN apt-get update
 
 RUN apt-get install vim -y
