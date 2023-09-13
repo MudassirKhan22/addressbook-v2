@@ -1,6 +1,5 @@
-From tomcat:8.5.72-jdk8-openjdk-buster
+FROM tomcat:8.5.72-jdk8-openjdk-buster
 
-Maintainer "Mudassir"
 
 # Define the Maven version and download URL
 ENV MAVEN_VERSION 3.8.4
@@ -19,18 +18,18 @@ ENV MAVEN_HOME /usr/share/maven
 ENV PATH $MAVEN_HOME/bin:$PATH
 
 
-Workdir /app
+WORKDIR /app
 
-Copy ./pom.xml ./pom.xml
+COPY ./pom.xml ./pom.xml
 
-Copy ./src ./src
+COPY ./src ./src
 
-Run mvn package
+RUN mvn package
 
-Run rm -rf /usr/local/tomcat/webapps/*
+RUN rm -rf /usr/local/tomcat/webapps/*
 
-Run cp /app/target/addressbook.war /usr/local/tomcat/webapps/
+RUN cp /app/target/addressbook.war /usr/local/tomcat/webapps/
 
-Expose 8080
+EXPOSE 8080
 
-Cmd ["catalina.sh", "run"]
+CMD ["catalina.sh", "run"]
