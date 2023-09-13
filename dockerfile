@@ -1,28 +1,36 @@
 From tomcat:8.5.72-jdk8-openjdk-buster
 
-RUN apt-get update
+Maintainer "Mudassir"
 
-RUN apt-get install vim -y
+# Define the Maven version and download URL
+ENV MAVEN_VERSION 3.8.4
+ENV MAVEN_DOWNLOAD_URL https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.8.4/apache-maven-3.8.4-bin.tar.gz
 
-RUN wget https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.8.4/apache-maven-3.8.4-bin.tar.gz -P /tmp
+# Create a directory for Maven installation
+RUN mkdir -p /usr/share/maven
 
-RUN tar xf /tmp/apache-maven-*.tar.gz -C /opt
+# Download and extract Maven
+RUN curl -fsSL $MAVEN_DOWNLOAD_URL -o /tmp/apache-maven.tar.gz \
+    && tar -xzvf /tmp/apache-maven.tar.gz -C /usr/share/maven --strip-components=1 \
+    && rm -f /tmp/apache-maven.tar.gz
 
-RUN  ln -s /opt/apache-maven-3.8.4 /opt/maven
+# Set environment variables for Maven
+ENV MAVEN_HOME /usr/share/maven
+ENV PATH $MAVEN_HOME/bin:$PATH
 
-WORKDIR /app
 
-COPY ./pom.xml ./pom.xml
+Workdir /app
 
-COPY ./src ./src
+Copy ./pom.xml ./pom.xml
 
-RUN mvn package
+Copy ./src ./src
 
-RUN run -rf /usr/local/tomcat/webapps/*
+Run mvn package
 
-RUN cp /app/target/addressbookpractice.war /usr/local/tomcat/webapps/*
+Run rm -rf /usr/local/tomcat/webapps/*
 
-EXPOSE 8080
+Run cp /app/target/addressbook.war /usr/local/tomcat/webapps/
 
-CMD ["catalishna.", "run"]
+Expose 8080
 
+Cmd ["catalina.sh", "run"]
