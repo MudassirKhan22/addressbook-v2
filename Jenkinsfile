@@ -7,8 +7,8 @@ pipeline {
     }
 
     environment{
-        BUILD_SERVER_IP='ec2-user@13.234.217.139'
-        TEST_SERVER_IP='ec2-user@3.7.46.68'
+        BUILD_SERVER_IP='ec2-user@13.235.42.124'
+        TEST_SERVER_IP='ec2-user@3.110.182.185'
         
         //Used this environment variable for Docker Image.Build Number is inbuilt variable which is suffixed with 
         //every image which will build when the pipeline runs and maintain the version docker images.
